@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gold-primary: #d4af37;
+    --gold-dark: #1a1a2e;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold-500 hover:bg-gold-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+
+  .btn-outline-gold {
+    @apply border-2 border-gold-500 text-gold-700 hover:bg-gold-50 font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  .gold-badge {
+    @apply inline-flex items-center gap-1 bg-gold-100 text-gold-800 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+
+  .countdown-urgent {
+    @apply text-red-600 font-bold animate-pulse;
+  }
+}
