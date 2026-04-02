@@ -6,6 +6,15 @@ import { formatEur, getPurityLabel } from '@/lib/gold';
 import type { Listing } from '@orflow/types';
 
 export default async function FeaturedListings() {
+  // Gracefully handle missing Supabase credentials (e.g. during static build)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return (
+      <div className="text-center py-12 text-gray-500">
+        Aucune annonce disponible pour le moment.
+      </div>
+    );
+  }
+
   const supabase = await createClient();
 
   const { data: listings } = await supabase
