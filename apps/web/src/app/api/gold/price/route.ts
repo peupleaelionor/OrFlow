@@ -4,6 +4,16 @@ import { createClient } from '@/lib/supabase/server';
 export const revalidate = 60; // cache 1 minute
 
 export async function GET() {
+  // Gracefully handle missing Supabase credentials
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return NextResponse.json({
+      price_per_gram_eur: 58.5,
+      price_per_troy_oz_usd: 2050,
+      source: 'fallback',
+      timestamp: new Date().toISOString(),
+    });
+  }
+
   const supabase = await createClient();
 
   // Try to get from DB cache first (updated by background job)
