@@ -1,5 +1,5 @@
 [build]
-  command = "npm install -g pnpm@9 && pnpm install --no-frozen-lockfile && pnpm --filter @orflow/web... build"
+  command = "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @orflow/web... build"
   publish = "apps/web/.next"
 
 [build.environment]
