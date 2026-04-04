@@ -5,6 +5,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
+  # Ensure pnpm is available via corepack
+  COREPACK_ENABLE_STRICT = "0"
 
 # Next.js runtime plugin — handles SSR, API routes, ISR, and all routing
 [[plugins]]
@@ -17,3 +19,23 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    X-XSS-Protection = "0"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache static assets aggressively
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# Netlify Functions configuration for SSR / API routes
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["node_modules/@orflow/**"]
