@@ -88,7 +88,7 @@ async function fetchFromGoldApi(): Promise<GoldPriceResult | null> {
   });
 
   if (!res.ok) return null;
-  const data = await res.json();
+  const data = await res.json() as { price_gram_24k: number; price: number; timestamp: number };
 
   return {
     pricePerGramEur: data.price_gram_24k,
@@ -108,7 +108,7 @@ async function fetchFromMetalsApi(): Promise<GoldPriceResult | null> {
   );
 
   if (!res.ok) return null;
-  const data = await res.json();
+  const data = await res.json() as { success: boolean; rates: { XAU: number } };
   if (!data.success) return null;
 
   const xauPerEur = data.rates.XAU; // troy oz per EUR
@@ -130,7 +130,7 @@ async function fetchFromOpenExchangeRates(): Promise<GoldPriceResult | null> {
     { signal: AbortSignal.timeout(5000) }
   );
   if (!res.ok) return null;
-  const data = await res.json();
+  const data = await res.json() as { rates?: { XAU?: number; EUR?: number } };
 
   // XAU is typically available in the rates
   const usdPerTroyOz = data.rates?.XAU ? (1 / data.rates.XAU) : 2050;
